@@ -76,14 +76,16 @@ USER chaimeleon:chaimeleon
 # Install udocker to allow the user to launch Docker containers without being root
 RUN mkdir -p /home/chaimeleon/.local/lib \
     && cd /home/chaimeleon/.local/lib \
-    && curl -L https://github.com/indigo-dc/udocker/releases/download/1.3.9/udocker-1.3.9.tar.gz > udocker-1.3.9.tar.gz \
-    && tar zxvf udocker-1.3.9.tar.gz \
-    && export PATH=/home/chaimeleon/.local/lib/udocker-1.3.9/udocker:$PATH \
-    && sed -i '1s/python/python3/' /home/chaimeleon/.local/lib/udocker-1.3.9/udocker/maincmd.py \
+    && curl -L https://github.com/indigo-dc/udocker/releases/download/1.3.17/udocker-1.3.17.tar.gz > udocker-1.3.17.tar.gz \
+    && tar zxvf udocker-1.3.17.tar.gz \
+    && export PATH=/home/chaimeleon/.local/lib/udocker-1.3.17/udocker:$PATH \
+    && sed -i '1s/python/python3/' /home/chaimeleon/.local/lib/udocker-1.3.17/udocker/maincmd.py \
     && udocker install \
-    && rm udocker-1.3.9.tar.gz
+    && rm udocker-1.3.17.tar.gz
+# If you want to upgrade (offline) later you will need to do (before udocker install): 
+#   export UDOCKER_TARBALL=$HOME/persistent-shared-folder/apps/udocker-englib-1.2.11.tar.gz
 
-ENV PATH="${PATH}:/home/chaimeleon/.local/lib/udocker-1.3.9/udocker"
+ENV PATH="${PATH}:/home/chaimeleon/.local/lib/udocker-1.3.17/udocker"
 
 ## Enable autocompletion
 #RUN echo "source /etc/bash_completion" >> /home/chaimeleon/.bashrc
