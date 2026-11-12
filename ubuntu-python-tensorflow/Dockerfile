@@ -1,12 +1,12 @@
 ARG CUDA_VERSION=""
 ARG BASE_VERSION="unknown"
-ARG TARGET_VERSION="unknown"
 
 ## Uncomment or include in "docker build --build-arg" for building with CUDA
 #ARG CUDA_VERSION="cuda11"
 
 FROM harbor.chaimeleon-eu.i3m.upv.es/chaimeleon-library-batch/ubuntu-python:${BASE_VERSION}${CUDA_VERSION}
-
+ARG CUDA_VERSION
+ARG TARGET_VERSION="unknown"
 LABEL name="ubuntu-python-tensorflow"
 LABEL version="${TARGET_VERSION}$CUDA_VERSION"
 LABEL description="Container with ubuntu 22.04, python 3.10.6, ${CUDA_VERSION} and tensorflow."

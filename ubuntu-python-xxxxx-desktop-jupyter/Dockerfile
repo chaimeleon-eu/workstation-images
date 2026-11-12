@@ -1,7 +1,6 @@
 ARG AI_TOOL=tensorflow
 ARG BASE_VERSION="unknown"
 ARG CUDA_VERSION
-ARG TARGET_VERSION="unknown"
 
 ## Uncomment or include in "docker build --build-arg" for building with CUDA
 #ARG CUDA_VERSION="cuda11"
@@ -9,10 +8,11 @@ ARG TARGET_VERSION="unknown"
 ## Uncomment or include in "docker build --build-arg" for building with pyTorch
 #ARG AI_TOOL=pytorch
 #ARG BASE_VERSION="unknown"
-#ARG TARGET_VERSION="unknown"
 
 FROM harbor.chaimeleon-eu.i3m.upv.es/chaimeleon-library/ubuntu-python-${AI_TOOL}-desktop:${BASE_VERSION}${CUDA_VERSION}
-
+ARG AI_TOOL
+ARG CUDA_VERSION
+ARG TARGET_VERSION="unknown"
 LABEL name="ubuntu-python-${AI_TOOL}-desktop-jupyter"
 LABEL version="${TARGET_VERSION}${CUDA_VERSION}"
 LABEL description="Container with ubuntu 22.04, python 3.10.6, ${AI_TOOL}, ${CUDA_VERSION}, lxde desktop, vnc and ssh services, and jupyter notebooks web service."

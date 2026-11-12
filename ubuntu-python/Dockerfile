@@ -1,6 +1,5 @@
 ARG IMAGE_NAME="ubuntu:22.04"
 ARG CUDA_VERSION=""
-ARG TARGET_VERSION="unknown"
 
 ## Uncomment or include in "docker build --build-arg" for building with CUDA
 #ARG IMAGE_NAME="nvidia/cuda:11.8.0-runtime-ubuntu22.04"
@@ -10,7 +9,8 @@ ARG TARGET_VERSION="unknown"
 ##ARG IMAGE_NAME="nvidia/cuda:11.3.1-runtime-ubuntu18.04"     Cuda major version in container must match with the version installed in the host
 
 FROM $IMAGE_NAME
-
+ARG CUDA_VERSION
+ARG TARGET_VERSION="unknown"
 LABEL name="ubuntu-python"
 LABEL version="${TARGET_VERSION}$CUDA_VERSION"
 LABEL description="Container with ubuntu 22.04, python 3.10.6, ${CUDA_VERSION} and other tools."

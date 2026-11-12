@@ -1,7 +1,6 @@
 ARG AI_TOOL=tensorflow
 ARG BASE_VERSION="unknown"
 ARG CUDA_VERSION
-ARG TARGET_VERSION="unknown"
 
 ## Uncomment or include in "docker build --build-arg" for building with CUDA
 #ARG CUDA_VERSION="cuda11"
@@ -9,10 +8,11 @@ ARG TARGET_VERSION="unknown"
 ## Uncomment or include in "docker build --build-arg" for building with pyTorch
 #ARG AI_TOOL=pytorch
 #ARG BASE_VERSION="unknown"
-#ARG TARGET_VERSION="unknown"
 
 FROM harbor.chaimeleon-eu.i3m.upv.es/chaimeleon-library-batch/ubuntu-python-${AI_TOOL}:${BASE_VERSION}${CUDA_VERSION}
-
+ARG AI_TOOL
+ARG CUDA_VERSION
+ARG TARGET_VERSION="unknown"
 LABEL name="ubuntu-python-${AI_TOOL}-desktop"
 LABEL version="${TARGET_VERSION}${CUDA_VERSION}"
 LABEL description="Container with ubuntu 22.04, python 3.10.6, ${AI_TOOL}, ${CUDA_VERSION}, lxde desktop, vnc and ssh services."
@@ -87,7 +87,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 
 ########## itk-snap installation
 RUN cd /tmp \
-    && curl -L -o itk-snap.tgz 'https://netcologne.dl.sourceforge.net/project/itk-snap/itk-snap/4.0.2/itksnap-4.0.2-Linux-gcc64.tar.gz' \
+    && curl -L -o itk-snap.tgz 'https://download.sourceforge.net/project/itk-snap/itk-snap/4.4.0/itksnap-4.4.0-20250909-Linux-x86_64.tar.gz' \
     && tar xzf itk-snap.tgz \
     && cp -av ./itksnap-*/* /usr/local/ \
     && rm -rf ./itksnap-*/ itk-snap.tgz
@@ -96,10 +96,11 @@ RUN cd /tmp \
 # https://sourceforge.net/projects/itk-snap/files/itk-snap/4.0.1/itksnap-4.0.1-20230320-Linux-gcc64.tar.gz/download
 # https://netcologne.dl.sourceforge.net/project/itk-snap/itk-snap/4.0.1/itksnap-4.0.1-20230320-Linux-gcc64.tar.gz
 # https://sourceforge.net/projects/itk-snap/files/latest/download
+# https://download.sourceforge.net/project/itk-snap/itk-snap/4.0.2/itksnap-4.0.2-Linux-gcc64.tar.gz
 
 ########## itk-snap (old version) 3.6 installation
 RUN cd /tmp \
-    && curl -L -o itk-snap.tgz 'https://kumisystems.dl.sourceforge.net/project/itk-snap/itk-snap/3.6.0/itksnap-3.6.0-20170401-Linux-x86_64.tar.gz' \
+    && curl -L -o itk-snap.tgz 'https://download.sourceforge.net/project/itk-snap/itk-snap/3.6.0/itksnap-3.6.0-20170401-Linux-x86_64.tar.gz' \
     && tar xzf itk-snap.tgz \
     && cp -av ./itksnap-*/lib/* /usr/local/lib/ \
     && cp -av ./itksnap-*/bin/itksnap /usr/local/bin/itksnap-3.6 \
