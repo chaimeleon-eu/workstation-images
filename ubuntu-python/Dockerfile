@@ -73,15 +73,23 @@ RUN chmod +x /home/chaimeleon/.local/bin/install-upload-result
 ############### Now change to normal user ################
 USER chaimeleon:chaimeleon
 
-# Install udocker to allow the user to launch Docker containers without being root
+# Install udocker to allow the user to launch Docker containers without being root.
+# Doc: https://indigo-dc.github.io/udocker/installation_manual.html
+# Official download: 
+#   && curl -L https://github.com/indigo-dc/udocker/releases/download/1.3.17/udocker-1.3.17.tar.gz > udocker-1.3.17.tar.gz \
+#   && tar zxvf udocker-1.3.17.tar.gz \
+#   && rm udocker-1.3.17.tar.gz \
+# But we are currently using a fork from sulinivan which fixes this bug reported many times: https://github.com/indigo-dc/udocker/issues/449
+# So previous 3 lines are changed to 4 lines (curl, unzip, ln, rm)
 RUN mkdir -p /home/chaimeleon/.local/lib \
     && cd /home/chaimeleon/.local/lib \
-    && curl -L https://github.com/indigo-dc/udocker/releases/download/1.3.17/udocker-1.3.17.tar.gz > udocker-1.3.17.tar.gz \
-    && tar zxvf udocker-1.3.17.tar.gz \
+    && curl -L https://github.com/sulinivan/udocker/archive/3c3470a4bb1e1610773d278505dbc19579ed4bcb.zip > udocker-3c3470a.zip \
+    && unzip udocker-3c3470a.zip && mv udocker-3c3470a4bb1e1610773d278505dbc19579ed4bcb udocker-1.3.17 \
+    && cd udocker-1.3.17/udocker && ln -s maincmd.py udocker && cd ../.. \
+    && rm udocker-3c3470a.zip \
     && export PATH=/home/chaimeleon/.local/lib/udocker-1.3.17/udocker:$PATH \
     && sed -i '1s/python/python3/' /home/chaimeleon/.local/lib/udocker-1.3.17/udocker/maincmd.py \
-    && udocker install \
-    && rm udocker-1.3.17.tar.gz
+    && udocker install
 # If you want to upgrade (offline) later you will need to do (before udocker install): 
 #   export UDOCKER_TARBALL=$HOME/persistent-shared-folder/apps/udocker-englib-1.2.11.tar.gz
 
